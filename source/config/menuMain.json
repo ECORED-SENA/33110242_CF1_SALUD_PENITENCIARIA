@@ -1,0 +1,32 @@
+[
+  {
+    "icon": "fa fa-home",
+    "slug": "external",
+    "title": "Volver al inicio",
+    "path": "index.html"
+  },  
+  {
+    "icon": "fa fa-play-circle",
+    "slug": "introduccion",
+    "title": "Introducción",
+    "path": "pages/introduccion.html"
+  }, 
+  {
+    "icon": "fa fa-file-text-o",
+    "slug": "nocion-derecho",
+    "title": "1. Noción de derecho penitenciario",
+    "path": "pages/tema-1.html"
+  },
+  {
+    "icon": "fa fa-file-text-o",
+    "slug": "marco-normativo",
+    "title": "2. Marco normativo del Sistema Nacional Penitenciario y Carcelario",
+    "path": "pages/tema-2.html" 
+  },
+  {
+    "icon": "fa fa-file-text-o",
+    "slug": "tratamiento-penitenciario",
+    "title": "3. Tratamiento penitenciario en salud en Colombia",
+    "path": "pages/tema-3.html"
+  } 
+]
