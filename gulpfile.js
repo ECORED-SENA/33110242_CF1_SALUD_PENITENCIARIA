@@ -4,6 +4,9 @@ const rename = require('gulp-rename');
 const concat = require('gulp-concat');
 const minifyCSS = require('gulp-clean-css');
 const autoprefixer = require('gulp-autoprefixer');
+const gulpCopy = require("gulp-copy");
+const gulpZip = require("gulp-zip");
+const gulpPrompt = require("gulp-prompt");
 const plumber = require('gulp-plumber');
 const sourcemaps = require('gulp-sourcemaps');
 const changed = require('gulp-changed');
@@ -12,10 +15,15 @@ const pug = require('gulp-pug');
 const browserSync = require('browser-sync').create();
 const babel = require('gulp-babel');
 const javascriptObfuscator = require('gulp-javascript-obfuscator');
+const clear = require("clear");
+const exit = require("exit");
+const notify = require("gulp-notify");
 
 const src = './source';
 const pub = './public';
 const fontAwesome = 'node_modules/font-awesome'
+
+let nameFileZIP = "material.zip";
 
 // VARIABLES
 const paths = {
@@ -71,6 +79,7 @@ const paths = {
       `${src}/assets/images/**/*.*`,
       `${src}/download/**/*.*`,
       `${src}/media/**/*.*`,
+      `${src}/js/local.js`
     ],
   },
   vendor: {
@@ -96,7 +105,7 @@ gulp.task('pugRoot', done => {
     // COMPLIA PUG
     .pipe(
       pug({
-        locals: {}
+        cres: {}
       })
     )
     // ENBELLECE EL HTML
@@ -117,7 +126,7 @@ gulp.task('pugPages', done => {
     // COMPLIA PUG
     .pipe(
       pug({
-        locals: {}
+        cres: {}
       })
     )
 
@@ -217,6 +226,27 @@ gulp.task('servidor', done => {
   done();
 });
 
+/**
+ * @description
+ * Crea la carpeta ZIP con el contenido de la multimedia y lo almacena en la carpeta de descargas.
+ */
+gulp.task('crearZip', () => {
+  return gulp
+    .src([
+      `./${pub}/**/*.*`,
+      `!${pub}/pages/**/*.*`,
+      `!${pub}/index.html`,
+      `!${pub}/main.html`,
+    ])
+    .pipe(gulpZip(nameFileZIP))
+    .pipe(gulp.dest(`./${pub}/download`))
+
+    .pipe( notify("Descargable creado: <%= file.relative %>"));
+});
+
+gulp.task("salir", () => {
+  exit(5);
+});
 
 gulp.task('watch', done => {  
   gulp.watch([paths.pugRoot.src, paths.pugRoot.inc, paths.pugPages.src, paths.pugRoot.mixins], gulp.series('pugRoot','pugPages'));
@@ -230,7 +260,7 @@ gulp.task('watch', done => {
   done();
 });
 
-gulp.task('default',
+gulp.task('desarrollo',
   gulp.series(
     'json',
     'media',
@@ -246,3 +276,43 @@ gulp.task('default',
     'watch'
   )
 );
+
+gulp.task(
+  "produccion",
+  gulp.series(
+    "json",
+    "media",
+    "font-awesome",
+    "jsVendor",
+    "jsGlobal",
+    "jsContent",
+    "pugRoot",
+    "pugPages",
+    "sass",
+    "cssVendor",
+    "crearZip"
+  )
+);
+/**
+ * @description
+ * Inicia la carga del menú definido por defecto con las funciones permitidas.
+ */
+gulp.task('default', () => {
+  clear();
+  console.log('Versión: 1.0');
+  return gulp
+    .src('package.json')
+    .pipe(gulpPrompt.prompt({
+      type: 'list',
+      name: 'menu',
+      message: 'Seleccione una acción:',
+      choices: [
+        'desarrollo',
+        'produccion',
+        'salir'
+      ],
+      pageSize: '5'
+    }, (res) => {
+      gulp.series(res.menu)();
+    }));
+});
