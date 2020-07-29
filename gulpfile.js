@@ -99,7 +99,7 @@ const paths = {
 // COMPILAR PUG
 gulp.task('pugRoot', done => {
   gulp
-    .src(paths.pugRoot.src)
+    .src([paths.pugRoot.src, `!${src}/pug/ruta.pug`,`!${src}/pug/material.pug`, ])
     // PREVIENE QUE LOS PROCESOS GULP.WATCH SE DETENGA AL ENCONTRAR UN ERROR
     .pipe(plumber())
     // COMPLIA PUG
@@ -237,11 +237,54 @@ gulp.task('crearZip', () => {
       `!${pub}/pages/**/*.*`,
       `!${pub}/index.html`,
       `!${pub}/main.html`,
+      `!${pub}/ruta.html`,
     ])
     .pipe(gulpZip(nameFileZIP))
     .pipe(gulp.dest(`./${pub}/download`))
 
     .pipe( notify("Descargable creado: <%= file.relative %>"));
+});
+
+/**
+ * @description
+ * Crea la carpeta ZIP con el contenido de la multimedia y lo almacena en la carpeta de descargas.
+ */
+gulp.task('pugRuta', () => {
+  return gulp
+    .src(`${src}/pug/ruta.pug`)
+    // PREVIENE QUE LOS PROCESOS GULP.WATCH SE DETENGA AL ENCONTRAR UN ERROR
+    .pipe(plumber())
+    // COMPLIA PUG
+    .pipe(
+      pug({
+        cres: {}
+      })
+    )
+    // ENBELLECE EL HTML
+    .pipe(prettify({ indent_size: 4 }))
+    // GUARDA EL ARCHIVO HTML
+    .pipe(gulp.dest(`${pub}/`))
+});
+
+gulp.task('crearZipRuta', () => {
+  return gulp
+    .src([
+      `./${pub}/**/*.*`,
+      `!${pub}/index.html`,
+      `!${pub}/main.html`,
+      `!${pub}/download/**/*.*`,
+      `!${pub}/js/**/*.*`,
+      `!${pub}/pages/**/*.*`,
+      `!${pub}/media/**/*.*`,
+      `!${pub}/config/**/*.*`,
+      `!${pub}/assets/images/pages/*.*`,
+      `!${pub}/assets/images/icons/*.*`,
+      `!${pub}/material.html`
+    ])
+    .pipe(gulpZip('ruta.zip'))
+    .pipe(gulp.dest(`./${pub}/download`))
+    
+    .pipe(notify("Descargable creado: <%= file.relative %>"));
 });
 
 gulp.task("salir", () => {
@@ -259,6 +302,13 @@ gulp.task('watch', done => {
   gulp.watch(paths.jsGlobal.src, gulp.series('jsGlobal'))
   done();
 });
+
+gulp.task('ruta',
+  gulp.series(
+    'pugRuta',
+    'crearZipRuta'
+  )
+);
 
 gulp.task('desarrollo',
   gulp.series(

@@ -1,0 +1,125 @@
+include mixins/functions
+
+doctype
+html(lang="es")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
+        title Ruta de aprendizaje
+        meta(meta name="description" content="Ruta de aprendizaje programa Salud penitenciaria.")    
+        link(rel="icon",type="image/svg+xml",href="assets/images/logos/senaLogo.svg")
+        link(rel="stylesheet", href="assets/fonts/feather/feather.css")
+        link(rel="stylesheet", href="assets/fonts/fontawesome/css/font-awesome.css")
+        link(href='assets/css/fancybox.css', rel='stylesheet')
+        link(href='assets/css/animate.css', rel='stylesheet')
+        link(rel="stylesheet", href="assets/css/main.css")
+
+
+    body#page-home.theme-dark.page-header-textura
+
+        header#CursoPresentacion.curso-presentacion.page-header
+            .page-textura
+                .container
+
+                    .curso-topbar
+                        
+                        a.curso-topbar__logo
+                            include ../assets/images/logos/senaLogo.svg
+
+                    .curso-portada
+
+                        .row.align-items-center
+
+                            .col-12.col-lg-6
+
+                                h3.curso-subtitulo Salud Penitenciaria
+                                h1.curso-titulo Ruta de aprendizaje
+
+                                .brand-line-primary
+
+                                p.curso-descripcion A continuación se presentan las actividades de aprendizaje que debe realizar el aprendiz durante el proceso formativo, estableciendo los tiempos, recursos educativos y evidencias que le permitirán  cumplir con los resultados de aprendizaje definidos para el programa de formación Salud Penitenciaria.
+                    
+
+                            .col-12.col-lg-6
+                                .d-none.d-lg-block
+                                    img(src="assets/images/header/header_ruta.svg")           
+
+        section#ruta.curso-resultados.section.bg-base-light.container
+
+            .timeline__wrapper.jumbotron
+                .row.justify-content-center.px-sm-2.px-md-5.py-5
+                    .col-12  
+                    section#timeline
+
+                        .timeline__item.br--bottom   
+                            img(src="assets/images/ruta/inicio.svg", alt="")            
+                            p Inicio              
+                        .timeline-card-wrapper                              
+                            .timeline-card.card--step1
+                                .timeline-card__head
+                                    .number-box
+                                        span 01
+                                    .title-box #[strong Actividad de aprendizaje:] Interpreta la normativa referente al proceso de evaluación y certificación de competencias laborales
+                                .timeline-card__body            
+                                    .body-content-wrapper            
+                                        p #[strong Resultado de aprendizaje]</br>Interpretar el referente de evaluación teniendo en cuenta los componentes y lineamientos del organismo certificador.
+                                        .tl-hr-divider
+                                        p #[strong Material de formación]</br>Línea de Tiempo. 
+                                        p #[strong Evidencias:] 
+                                    ul
+                                        li Foro: Participar.
+                                        li Desarrollar un mapa mental.
+                                    .tl-hr-divider
+                                    p #[strong Material de formación]</br>Actividad interactiva. 
+                                    p #[strong Evidencias:]   
+                                    ul
+                                        li Actividad interactiva.  
+
+                            .timeline-card.card--step1
+                                .timeline-card__head
+                                    .number-box
+                                        span 02
+                                    .title-box #[strong Actividad de aprendizaje:] Ejecuta las fases del proceso de evaluación y certificación de competencias laborales
+                            
+                                .timeline-card__body            
+                                    .body-content-wrapper            
+                                        p #[strong Resultado de aprendizaje]</br>Ejecutar el proceso de evaluación de competencias laborales, acorde con lineamientos del organismo certificador.
+                                    .tl-hr-divider
+                                    p #[strong Material de formación]</br>Infografía y video tutorial incluyendo las diapositivas del proceso, por medio de gráfico con videos. 
+                                    p #[strong Evidencias:] 
+                                    ul
+                                        li Formulario de preguntas con glosario.
+                                        li Video explicativo sobre el proceso de sensibilización e inducción respuesta al estudio de caso.
+                                        li Producto publicitario, poster dando solución al caso.
+                                        li Evaluación en línea (juego interactivo) dando respuesta al caso.   
+
+                            .timeline-card.card--step1
+                                .timeline-card__head
+                                    .number-box
+                                        span 03
+                                    .title-box #[strong Actividad de aprendizaje:] Acompaña la finalización del proceso de evaluación y certificación de competencias laborales
+                                .timeline-card__body            
+                                    .body-content-wrapper            
+                                        p #[strong Resultado de aprendizaje]</br>Acompañar el cierre del proceso de evaluación certificación según lineamientos del organismo certificador.
+                                        .tl-hr-divider
+                                        p #[strong Material de formación]</br>Mapa Mental(videos). 
+                                        p #[strong Evidencias:] 
+                                        ul
+                                            li Informe de resultados del caso (paquetes de formatos proceso ECCL).
+                                            li Flujograma con el cierre del caso.          
+                        .timeline__item.br--top                
+                            img(src="assets/images/ruta/certificacion.svg", alt="")    
+                            p Certificación        
+                    
+
+        +creditosFooter("assets/images/logos/senaLogo.svg")
+
+
+        script(src="assets/js/vendor.js")
+        script(src="assets/js/global.js")        
+        script(src="assets/js/pages.js")
+
+
+
+
+
