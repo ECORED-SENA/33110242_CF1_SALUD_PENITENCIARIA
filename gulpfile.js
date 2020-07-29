@@ -99,13 +99,18 @@ const paths = {
 // COMPILAR PUG
 gulp.task('pugRoot', done => {
   gulp
-    .src([paths.pugRoot.src, `!${src}/pug/ruta.pug`,`!${src}/pug/material.pug`, ])
+    .src([
+      paths.pugRoot.src,
+      `!${src}/pug/ruta.pug`,
+      `!${src}/pug/material.pug`,
+      `!${src}/pug/info.pug`,
+    ])
     // PREVIENE QUE LOS PROCESOS GULP.WATCH SE DETENGA AL ENCONTRAR UN ERROR
     .pipe(plumber())
     // COMPLIA PUG
     .pipe(
       pug({
-        cres: {}
+        cres: {},
       })
     )
     // ENBELLECE EL HTML
@@ -238,11 +243,12 @@ gulp.task('crearZip', () => {
       `!${pub}/index.html`,
       `!${pub}/main.html`,
       `!${pub}/ruta.html`,
+      `!${pub}/info.html`
     ])
     .pipe(gulpZip(nameFileZIP))
     .pipe(gulp.dest(`./${pub}/download`))
 
-    .pipe( notify("Descargable creado: <%= file.relative %>"));
+    .pipe(notify("Descargable creado: <%= file.relative %>"));
 });
 
 /**
@@ -279,11 +285,55 @@ gulp.task('crearZipRuta', () => {
       `!${pub}/config/**/*.*`,
       `!${pub}/assets/images/pages/*.*`,
       `!${pub}/assets/images/icons/*.*`,
-      `!${pub}/material.html`
+      `!${pub}/assets/images/info/*.*`,
+      `!${pub}/material.html`,
+      `!${pub}/info.html`,
     ])
-    .pipe(gulpZip('ruta.zip'))
+    .pipe(gulpZip("ruta.zip"))
     .pipe(gulp.dest(`./${pub}/download`))
-    
+
+    .pipe(notify("Descargable creado: <%= file.relative %>"));
+});
+
+gulp.task("pugInfo", () => {
+  return (
+    gulp
+      .src(`${src}/pug/info.pug`)
+      // PREVIENE QUE LOS PROCESOS GULP.WATCH SE DETENGA AL ENCONTRAR UN ERROR
+      .pipe(plumber())
+      // COMPLIA PUG
+      .pipe(
+        pug({
+          cres: {},
+        })
+      )
+      // ENBELLECE EL HTML
+      .pipe(prettify({ indent_size: 4 }))
+      // GUARDA EL ARCHIVO HTML
+      .pipe(gulp.dest(`${pub}/`))
+  );
+});
+
+gulp.task("crearZipInfo", () => {
+  return gulp
+    .src([
+      `./${pub}/**/*.*`,
+      `!${pub}/index.html`,
+      `!${pub}/main.html`,
+      `!${pub}/download/**/*.*`,
+      `!${pub}/js/**/*.*`,
+      `!${pub}/pages/**/*.*`,
+      `!${pub}/media/**/*.*`,
+      `!${pub}/config/**/*.*`,
+      `!${pub}/assets/images/pages/*.*`,
+      `!${pub}/assets/images/icons/*.*`,
+      `!${pub}/assets/images/ruta/*.*`,
+      `!${pub}/material.html`,
+      `!${pub}/ruta.html`,
+    ])
+    .pipe(gulpZip("info.zip"))
+    .pipe(gulp.dest(`./${pub}/download`))
+
     .pipe(notify("Descargable creado: <%= file.relative %>"));
 });
 
@@ -309,6 +359,8 @@ gulp.task('ruta',
     'crearZipRuta'
   )
 );
+
+gulp.task("info", gulp.series("pugInfo", "crearZipInfo"));
 
 gulp.task('desarrollo',
   gulp.series(
