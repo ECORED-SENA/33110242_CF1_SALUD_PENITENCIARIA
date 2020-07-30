@@ -297,7 +297,7 @@ gulp.task('crearZipRuta', () => {
       `!${pub}/material.html`,
       `!${pub}/info.html`,
     ])
-    .pipe(gulpZip("ruta.zip"))
+    .pipe(gulpZip("ruta_aprendizaje.zip"))
     .pipe(gulp.dest(`./${pub}/download`))
 
     .pipe(notify("Descargable creado: <%= file.relative %>"));
@@ -339,7 +339,7 @@ gulp.task("crearZipInfo", () => {
       `!${pub}/material.html`,
       `!${pub}/ruta.html`,
     ])
-    .pipe(gulpZip("info.zip"))
+    .pipe(gulpZip("informacion_programa.zip"))
     .pipe(gulp.dest(`./${pub}/download`))
 
     .pipe(notify("Descargable creado: <%= file.relative %>"));
