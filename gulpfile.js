@@ -18,6 +18,7 @@ const javascriptObfuscator = require('gulp-javascript-obfuscator');
 const clear = require("clear");
 const exit = require("exit");
 const notify = require("gulp-notify");
+const del = require('del');
 
 const src = './source';
 const pub = './public';
@@ -231,6 +232,13 @@ gulp.task('servidor', done => {
   done();
 });
 
+gulp.task('borrarRuta', done => {
+  return del(`${pub}/ruta.html`);
+});
+
+gulp.task('borrarInfo', done => {
+  return del(`${pub}/info.html`);
+});
 /**
  * @description
  * Crea la carpeta ZIP con el contenido de la multimedia y lo almacena en la carpeta de descargas.
@@ -356,11 +364,13 @@ gulp.task('watch', done => {
 gulp.task('ruta',
   gulp.series(
     'pugRuta',
-    'crearZipRuta'
+    'crearZipRuta',
+    'servidor',
+    'watch'
   )
 );
 
-gulp.task("info", gulp.series("pugInfo", "crearZipInfo"));
+gulp.task("info", gulp.series("pugInfo", "crearZipInfo", 'servidor', 'watch'));
 
 gulp.task('desarrollo',
   gulp.series(
@@ -375,6 +385,8 @@ gulp.task('desarrollo',
     'sass',
     'cssVendor',
     'servidor',
+    "borrarRuta",
+    "borrarInfo",    
     'watch'
   )
 );
@@ -392,6 +404,8 @@ gulp.task(
     "pugPages",
     "sass",
     "cssVendor",
+    "borrarRuta",
+    "borrarInfo",
     "crearZip"
   )
 );
