@@ -243,6 +243,23 @@ gulp.task('borrarInfo', done => {
  * @description
  * Crea la carpeta ZIP con el contenido de la multimedia y lo almacena en la carpeta de descargas.
  */
+gulp.task('pugMaterial', () => {
+  return gulp
+    .src(`${src}/pug/material.pug`)
+    // PREVIENE QUE LOS PROCESOS GULP.WATCH SE DETENGA AL ENCONTRAR UN ERROR
+    .pipe(plumber())
+    // COMPLIA PUG
+    .pipe(
+      pug({
+        cres: {}
+      })
+    )
+    // ENBELLECE EL HTML
+    .pipe(prettify({ indent_size: 4 }))
+    // GUARDA EL ARCHIVO HTML
+    .pipe(gulp.dest(`${pub}/`))
+});
+
 gulp.task('crearZip', () => {
   return gulp
     .src([
@@ -258,6 +275,16 @@ gulp.task('crearZip', () => {
 
     .pipe(notify("Descargable creado: <%= file.relative %>"));
 });
+gulp.task('borrarMaterial', done => {
+  return del(`${pub}/material.html`);
+});
+gulp.task('material',
+  gulp.series(
+    'pugMaterial',
+    'crearZip',
+    'borrarMaterial'
+  )
+);
 
 /**
  * @description
